@@ -1,0 +1,2 @@
+# post-cost-calculator
+WordPress plugin that breaks down payroll for writers based on a variable rate and accurately calculated word count. Easily copy results to spreadsheets. Thoroughly supports ACF, variable author rates, data ranges. Results include a post per post, total cost and more. Additionally, there is post meta box which provides a quick google search for plagiarism. This is a highly useful tool for any WordPress content manager.
