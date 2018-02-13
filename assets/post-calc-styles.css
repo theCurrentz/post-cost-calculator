@@ -1,0 +1,58 @@
+#form-header {
+  display: flex;
+  align-items: flex-start;
+}
+#form-header h3 {
+  display: inline-block;
+  width: 25%;
+  max-width: 240px;
+  margin-bottom: 10px;
+}
+#post-cost-form {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: solid 1px #ddd;
+}
+.post-calc-block {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 25%;
+  max-width: 240px;
+  height: 280px !important;
+  margin: 0;
+  padding: 0 0 0 8px;
+}
+#author-rates {
+  overflow-y: scroll;
+}
+.author-rate {
+  display: flex;
+  justify-content: space-between;
+}
+.rate-input {
+  width: 60px;
+}
+#date-inputs {
+  display: inline-flex;
+  flex-direction: column;
+}
+.post-cost-table {
+  text-align: left;
+}
+.post-cost-table th, .post-cost-table td {
+  width: 16.6666666667%;
+}
+#post-cost-table-container {
+  position: relative;
+  margin: 24px auto 38px;
+}
+#total-cost {
+  position: absolute;
+  top: 0;
+  right: 10%;
+  font-size: 1.14rem;
+  font-weight: 700;
+  color: #00af70;
+}
