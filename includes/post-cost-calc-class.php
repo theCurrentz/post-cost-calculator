@@ -10,7 +10,8 @@ abstract class Post_Cost_Calculator
   //build html for metabox
   public static function build( $post ) {
     //query google search with content concatenated.
-    $wordConcat = preg_replace("/(?![.=$'€%-])\p{P}/u", "",$post->post_content);
+    $wordConcat = $post->post_content . self::acf_word_count($post);
+    $wordConcat = preg_replace("/(?![.=$'€%-])\p{P}/u", "",$wordConcat);
     $wordConcat = preg_replace("/<([a-z][a-z0-9]*)[^>]*?(\/?)>/i",'<$1$2>', $wordConcat);
     //replace spaces with +
     $wordConcat = preg_replace("/\s+/", "+", $wordConcat);
@@ -30,7 +31,7 @@ abstract class Post_Cost_Calculator
         var currentString = "";
         for (var i = 0, len = splitArray.length; i < len; i++) {
             currentString += splitArray[i] + "+";
-            if (i % 32 == 0) {
+            if (i != 0 && i % 32 == 0) {
               window.open('https://google.com/search?q=' + currentString + '');
               currentString = "";
             }
@@ -47,67 +48,57 @@ abstract class Post_Cost_Calculator
   //functions to calculate ACF word count
   public static function acf_word_count($post) {
 
-  	//ACF whitelist array
-  		$acf_whitelist = explode(' ', get_option('acfwhitelist'));
+	//ACF whitelist array
+		$acf_whitelist = explode(' ', get_option('acfwhitelist'));
 
-  		if (function_exists ('get_fields') ) {
+		if (function_exists ('get_fields') ) {
 
-  				$acf_count= "";
-  				$fields = get_fields($post);
+				$acf_count= "";
+				$fields = get_fields($post);
 
-  				if ($fields) {
+				if ($fields) {
 
-  						foreach($fields as $name => $value) {
+						foreach($fields as $name => $value) {
 
-  							if (in_array($name, $acf_whitelist) ) {
+							if (in_array($name, $acf_whitelist) ) {
 
-  								$field_object = get_field_object($name);
-  								$field_object_type = $field_object['type'];
+								$field_object = get_field_object($name);
+								$field_object_type = $field_object['type'];
 
 
-  								if ( $field_object_type == 'wysiwyg' || $field_object_type == 'text' || $field_object_type == 'number' ) {
+								if ( $field_object_type == 'wysiwyg' || $field_object_type == 'text' || $field_object_type == 'number' ) {
 
-  										$acf_count .= " " . $value;
+										$acf_count .= " " . $value;
 
-  								} elseif ( $field_object_type == 'repeater' ) {
+								} elseif ( $field_object_type == 'repeater' ) {
 
-  										$acf_count .= " " . self::repeater_field_capture($field_object['value']);
+										$acf_count .= " " . self::repeater_field_capture($field_object['value']);
 
-  											}
-  									 }
-  								}
-  						}
+											}
+									 }
+								}
+						}
 
-  						return $acf_count;
-  				}
-  				 return "";
-  		}
-
+						return $acf_count;
+				}
+				 return "";
+		}
 
   public static function repeater_field_capture($value) {
-
-  				$repeatCount = "";
-
-  				if (is_array($value)) {
-
-  						foreach ($value as $key => $subvalue) {
-
-  								$repeatCount .= Post_Cost_Calculator::repeater_field_capture($subvalue);
-
-  						}
-
-  				} else {
-
-  						$repeatCount .= " " . $value;
-
-  				}
-
-  				return $repeatCount;
-
+  	$repeatCount = "";
+  	if (is_array($value)) {
+  			foreach ($value as $key => $subvalue) {
+  					$repeatCount .= Post_Cost_Calculator::repeater_field_capture($subvalue);
+  			}
+  	} else {
+  			$repeatCount .= " " . $value;
+  	}
+  	return $repeatCount;
   }
 
-  //Calculate word count
-  public static function calculate_word_count($post) {
+
+//Calculate word count
+public static function calculate_word_count($post) {
   	$wordCount = 0;
   	$wordCount = preg_replace("/(?![.=$'€%-])\p{P}/u", "",$post->post_content);
   	$wordCount = preg_replace("#<(.*)/(.*)>#iUs", "", $wordCount);
@@ -125,7 +116,6 @@ abstract class Post_Cost_Calculator
 
   	return $wordCount + $repeatCount;
   }
-
 }
 
 //invoke class and methods for adding meta box
