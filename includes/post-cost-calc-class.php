@@ -21,7 +21,26 @@ abstract class Post_Cost_Calculator
     $wordConcat = strip_tags($wordConcat);
    ?>
   	<p><strong>Word Count:</strong> <?php echo self::calculate_word_count($post); ?></p>
-    <div class="button button-primary button-large" onclick="window.open('https://google.com/search?q=<?php echo $wordConcat; ?>')" >Check Plagiarization</div>
+    <div class="button button-primary button-large" onclick="checkPlag('<?php echo $wordConcat;?>')">
+      Check Plagiarization
+    </div>
+    <script>
+      function checkPlag(content) {
+        var splitArray = content.split("+");
+        var currentString = "";
+        for (var i = 0, len = splitArray.length; i < len; i++) {
+            currentString += splitArray[i] + "+";
+            if (i % 32 == 0) {
+              window.open('https://google.com/search?q=' + currentString + '');
+              currentString = "";
+            }
+        }
+        if (!currentString === "") {
+          window.open('https://google.com/search?q=' + currentString + '');
+        }
+        return;
+      }
+    </script>
   <?php
   }
 
