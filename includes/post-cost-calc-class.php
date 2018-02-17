@@ -65,7 +65,7 @@ abstract class Post_Cost_Calculator
 								$field_object = get_field_object($name);
 								$field_object_type = $field_object['type'];
 
-								if ( $field_object_type == 'wysiwyg' || $field_object_type == 'text' || $field_object_type == 'text area' || $field_object_type == 'number' ) {
+								if ( $field_object_type == 'wysiwyg' || $field_object_type == 'text' || $field_object_type == 'textarea' || $field_object_type == 'number' ) {
 
 										$acf_count .= " " . $value;
 
