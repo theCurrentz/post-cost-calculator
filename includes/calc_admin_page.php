@@ -28,6 +28,7 @@ function post_cost_calculator_options()  {
 		$option_rates = 'rate';
 		$option_equation = 'equation';
 		$option_acf = 'acfwhitelist';
+		$option_acf_black = 'acfblacklist';
 
 		//option names
     $hidden_field_name = 'mt_submit_hidden';
@@ -36,6 +37,7 @@ function post_cost_calculator_options()  {
 		$data_field_to = 'to';
 		$data_field_equation = 'equation';
 		$data_field_acf = 'acf';
+		$data_field_acf_black = 'acf_black';
 
 
     // Read in existing option value from database
@@ -45,6 +47,7 @@ function post_cost_calculator_options()  {
 		$author_rates_val = get_option( $option_rates );
 		$option_equation_val = get_option( $option_equation );
 		$option_acf_val = get_option( $option_acf );
+		$option_acf_black_val = get_option( $option_acf_black );
 
     // See if the user has posted us some information
     // If they did, this hidden field will be set to 'Y'
@@ -58,6 +61,7 @@ function post_cost_calculator_options()  {
 				$option_date2_val = $_POST[ $data_field_to ];
 				$option_equation_val = $_POST[ $data_field_equation ];
 				$option_acf_val = $_POST[$data_field_acf];
+				$option_acf_black_val = $_POST[$data_field_acf_black];
 
 				$i = 0;
 				foreach ( $authors as $author ) {
@@ -72,6 +76,7 @@ function post_cost_calculator_options()  {
 			update_option($option_rates, $author_rates_val);
 			update_option($option_equation, $option_equation_val);
 			update_option($option_acf, $option_acf_val);
+			update_option($option_acf_black, $option_acf_black_val);
 
 ?>
 <div class="updated"><p><strong><?php _e('settings saved.', 'menu-test' ); ?></strong></p></div>
@@ -120,8 +125,10 @@ function post_cost_calculator_options()  {
 				<label for="to">to</label>
 				<input type="text" id="to" name="<?php echo $data_field_to; ?>" value="<?php echo $option_date2_val; ?>">
 				<h3>ACF Fields</h3>
-				<label>ACF fields to include in calculation.<br>Seperate with a single space.</label><br>
-				<input type="textarea" name="<?php echo $data_field_acf; ?>" value="<?php echo $option_acf_val; ?>"/>
+				<label><strong>White List:</strong> Fields to include in calculation. Seperate with a single space.</label>
+				<input type="textarea" name="<?php echo $data_field_acf; ?>" value="<?php echo $option_acf_val; ?>"/><br>
+				<label><strong>Black List:</strong> ACF sub-fields to exclude in calculation.</label>
+				<input type="textarea" name="<?php echo $data_field_acf_black; ?>" value="<?php echo $option_acf_black_val; ?>"/><br>
 			</div>
 
 

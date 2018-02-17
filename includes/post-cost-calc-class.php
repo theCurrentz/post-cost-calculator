@@ -65,8 +65,7 @@ abstract class Post_Cost_Calculator
 								$field_object = get_field_object($name);
 								$field_object_type = $field_object['type'];
 
-
-								if ( $field_object_type == 'wysiwyg' || $field_object_type == 'text' || $field_object_type == 'number' ) {
+								if ( $field_object_type == 'wysiwyg' || $field_object_type == 'text' || $field_object_type == 'text area' || $field_object_type == 'number' ) {
 
 										$acf_count .= " " . $value;
 
@@ -86,15 +85,22 @@ abstract class Post_Cost_Calculator
 
   public static function repeater_field_capture($value) {
   	$repeatCount = "";
+    //ACF blacklist array
+    $acf_blacklist = explode(' ', get_option('acfblacklist'));
   	if (is_array($value)) {
   			foreach ($value as $key => $subvalue) {
-  					$repeatCount .= Post_Cost_Calculator::repeater_field_capture($subvalue);
-  			}
+          foreach($acf_blacklist as $black_key) {
+            if(!preg_match('/'.$black_key.'/', $key)) {
+                $repeatCount .= Post_Cost_Calculator::repeater_field_capture($subvalue);
+            }
+          }
+        }
   	} else {
-  			$repeatCount .= " " . $value;
-  	}
+        $repeatCount .= " " . $value;
+    }
+
   	return $repeatCount;
-  }
+}
 
 
 //Calculate word count
