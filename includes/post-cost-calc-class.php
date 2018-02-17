@@ -85,14 +85,28 @@ abstract class Post_Cost_Calculator
 
   public static function repeater_field_capture($value) {
   	$repeatCount = "";
+
     //ACF blacklist array
-    $acf_blacklist = explode(' ', get_option('acfblacklist'));
+    if (!empty(get_option('acfblacklist'))) {
+      $acf_blacklist = explode(' ', get_option('acfblacklist'));
+    } else {
+      $acf_blacklist = null;
+    }
+
   	if (is_array($value)) {
   			foreach ($value as $key => $subvalue) {
-          foreach($acf_blacklist as $black_key) {
-            if(!preg_match('/'.$black_key.'/', $key)) {
+          if($acf_blacklist !== null) {
+            foreach($acf_blacklist as $black_key) {
+              if(preg_match('/'.$black_key.'/', $key)) {
+                  continue;
+              }
+              else
+              {
                 $repeatCount .= Post_Cost_Calculator::repeater_field_capture($subvalue);
+              }
             }
+          } else {
+            $repeatCount .= Post_Cost_Calculator::repeater_field_capture($subvalue);
           }
         }
   	} else {
