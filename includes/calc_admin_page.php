@@ -3,7 +3,14 @@ add_action( 'admin_menu', 'post_cost_calculator_plugin_menu' );
 
 /** Step 1. Add Menu*/
 function post_cost_calculator_plugin_menu() {
-	add_menu_page( 'Post Cost Calculator', 'Post Cost Calculator', 'manage_options', 'post-cost-calculator', 'post_cost_calculator_options' );
+	add_menu_page(
+		'Post Cost Calculator',
+		'Post Cost Calculator',
+		'manage_options',
+		'post-cost-calculator',
+		'post_cost_calculator_options',
+		 plugins_url('/post-cost-calculator/assets/images/icon.png')
+	);
 }
 
 
