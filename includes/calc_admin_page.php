@@ -108,7 +108,7 @@ function post_cost_calculator_options()  {
 				<option value="">All</option>
 			<?php
 					foreach ( $authors as $author ) {
-						echo '<option value="'. esc_html( $author->display_name ) .'" >'. esc_html( $author->display_name ) . '</option>';
+						echo '<option value="'. esc_html( $author->user_nicename ) .'" >'. esc_html( $author->user_nicename ) . '</option>';
 					}
 				?>
 			</select>
@@ -119,7 +119,7 @@ function post_cost_calculator_options()  {
 				<?php
 				$i = 0;
 				foreach ( $authors as $author ) {
-						echo '<li class="author-rate">'. esc_html( $author->display_name ) . '<input class="rate-input" type="text" name="author'.$i.'" value="'.$author_rates_val[$i].'"></li>';
+						echo '<li class="author-rate">'. esc_html( $author->user_nicename ) . '<input class="rate-input" type="text" name="author'.$i.'" value="'.$author_rates_val[$i].'"></li>';
 						$i++;
 				}
 				?>
