@@ -2,49 +2,6 @@
 //abstract class containing post calculator methods and meta box methods for the post cost plugin
 abstract class Post_Cost_Calculator
 {
-  //add meta box to post backend
-  public static function add( $post ) {
-  	add_meta_box( 'post_cost_meta_box', 'Post Info:', [self::class, 'build'], 'post', 'side', 'core' );
-  }
-
-  //build html for metabox
-  public static function build( $post ) {
-    //query google search with content concatenated.
-    $wordConcat = $post->post_content . self::acf_word_count($post);
-    $wordConcat = preg_replace("/(?![.=$'€%-])\p{P}/u", "",$wordConcat);
-    $wordConcat = preg_replace("/<([a-z][a-z0-9]*)[^>]*?(\/?)>/i",'<$1$2>', $wordConcat);
-    //replace spaces with +
-    $wordConcat = preg_replace("/\s+/", "+", $wordConcat);
-    //replace ' apostraphes with %27
-    $wordConcat = preg_replace("/'/", "%27", $wordConcat);
-    $wordConcat = trim($wordConcat);
-    $wordConcat = html_entity_decode($wordConcat);
-    $wordConcat = strip_tags($wordConcat);
-   ?>
-  	<p><strong>Word Count:</strong> <?php echo self::calculate_word_count($post); ?></p>
-    <div class="button button-primary button-large" onclick="checkPlag('<?php echo $wordConcat;?>')">
-      Check Plagiarization
-    </div>
-    <script>
-      function checkPlag(content) {
-        var splitArray = content.split("+");
-        var currentString = "";
-        for (var i = 0, len = splitArray.length; i < len; i++) {
-            currentString += splitArray[i] + "+";
-            if (i != 0 && i % 32 == 0) {
-              window.open('https://google.com/search?q=' + currentString + '');
-              currentString = "";
-            }
-        }
-        if (!currentString === "") {
-          window.open('https://google.com/search?q=' + currentString + '');
-        }
-        return;
-      }
-    </script>
-  <?php
-  }
-
   //functions to calculate ACF word count
   public static function acf_word_count($post) {
 
@@ -137,6 +94,3 @@ public static function calculate_word_count($post) {
   	return $wordCount + $repeatCount;
   }
 }
-
-//invoke class and methods for adding meta box
-add_action('add_meta_boxes', ['Post_Cost_Calculator', 'add']);

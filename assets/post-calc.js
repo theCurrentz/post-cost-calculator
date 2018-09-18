@@ -46,22 +46,4 @@ jQuery(document).ready(function( $ ) {
 
     postCost();
   }
-  //warn authors about plagarism
-  $('<div style="color: red;">Do not attempt to plagiarize. We will not pay for plagarized contributions.<br><a target="_blank" href=\"https://visual.ly/blog/plagiarism-what-it-is-what-it-isnt-and-how-to-avoid-it-in-content-marketing/\">Find out what is and what isn\'t plagiarism.</a></div>').insertBefore($('.wp-heading-inline'));
-
-  function checkPlag(content) {
-    var splitArray = content.split("+");
-    var currentString = "";
-    for (var i = 0, len = splitArray.length; i < len; i++) {
-        currentString += splitArray[i] + "+";
-        if (i % 32 == 0) {
-          window.open('https://google.com/search?q=' + currentString + '');
-          currentString = "";
-        }
-    }
-    if (!currentString.equals("")) {
-      window.open('https://google.com/search?q=' + currentString + '');
-    }
-    return;
-  }
 } );
